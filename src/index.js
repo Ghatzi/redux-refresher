@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from './App';
 import { store } from './app/store';
-import { fetchPosts } from './features/posts/postSlice';
+import { extendedApiSlice } from './features/posts/postSlice';
 import { fetchUsers } from './features/users/userSlice';
 import './index.css';
 
 store.dispatch(fetchUsers());
-store.dispatch(fetchPosts());
+store.dispatch(extendedApiSlice.endpoints.getPosts.initiate());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
