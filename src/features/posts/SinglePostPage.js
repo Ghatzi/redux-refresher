@@ -1,21 +1,28 @@
-// import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PostAuthor from './PostAuthor';
 import { selectPostById } from './postSlice';
 import ReactionButtons from './ReactionButtons';
 import TimeAgo from './TimeAgo';
 
-const PostsExcerpt = ({ postId }) => {
-  const post = useSelector(state => selectPostById(state, postId));
-  // const PostsExcerpt = ({ post }) => {
-  // let PostsExcerpt = ({ post }) => {
+const SinglePostPage = () => {
+  const { postId } = useParams();
+  const post = useSelector(state => selectPostById(state, Number(postId)));
+
+  if (!post) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    );
+  }
+
   return (
     <article>
       <h2>{post.title}</h2>
-      <p className="excerpt">{post.body.substring(0, 75)}...</p>
+      <p>{post.body}</p>
       <p className="postCredit">
-        <Link to={`post/${post.id}`}>View Post</Link>
+        <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
         <PostAuthor userId={post.userId} />
         <TimeAgo timestamp={post.date} />
       </p>
@@ -24,6 +31,4 @@ const PostsExcerpt = ({ postId }) => {
   );
 };
 
-// PostsExcerpt = React.memo(PostsExcerpt);
-
-export default PostsExcerpt;
+export default SinglePostPage;
